@@ -21,13 +21,11 @@ export class Server {
     this.port = port;
     this.publicPath = public_path;
     this.routes = routes;
+    this.configure();
   }
 
+  private configure(){
   
-  
-  async start() {
-    
-
     //* Middlewares
     this.app.use( express.json() ); // raw
     this.app.use( express.urlencoded({ extended: true }) ); // x-www-form-urlencoded
@@ -43,8 +41,12 @@ export class Server {
       const indexPath = path.join( __dirname + `../../../${ this.publicPath }/index.html` );
       res.sendFile(indexPath);
     });
-    
+  }
 
+  
+  
+  private async start() {
+  
     this.serverListener = this.app.listen(this.port, () => {
       console.log(`Server running on port ${ this.port }`);
     });
