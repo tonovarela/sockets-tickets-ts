@@ -1,29 +1,38 @@
 import { Request, Response } from "express";
+import { TicketService } from "../services/ticket.service";
 export class TicketController {
     // Wss Service
-    constructor() {
-
-    }
+    constructor(private readonly ticketService: TicketService = new TicketService()) { }
 
     public list = (req: Request, res: Response) => {
-        res.json({ message: "Get tickets" });
+        const tickets = this.ticketService.tickets
+        res.json({ tickets });
     }
     public getLast = (req: Request, res: Response) => {
-        res.json({ message: "Get last ticket" });
+        res.json({ ticket: this.ticketService.lastTicketNumber });
     }
     public listPendings = (req: Request, res: Response) => {
-        res.json({ message: "Get pending tickets" });
+        res.json({ tickets: this.ticketService.pendingTickets });
     }
     public create = (req: Request, res: Response) => {
-        res.json({ message: "Create ticket" });
+        const newTicket = this.ticketService.createTicket();
+        res.status(201).json({ ticket: newTicket });
+    }
+    public ticketFinished = (req: Request, res: Response) => {
+        const { ticketId } = req.params;
+        res.json({ ticket: this.ticketService.onFinishedTicket(ticketId) });
     }
     public draw = (req: Request, res: Response) => {
-        res.json({ message: "Draw ticket" });
+        const { desk } = req.params;
+        const ticket = this.ticketService.drawTicket(desk);
+        res.json({ ticket });        
     }
     public done = (req: Request, res: Response) => {
-        res.json({ message: "Done ticket" });
+        const { ticketId } = req.params;
+        const ticket = this.ticketService.onFinishedTicket(ticketId);
+        res.json({ ticket });
     }
     public workingOn = (req: Request, res: Response) => {
-        res.json({ message: "Working on ticket" });
+        res.json({ tickets: this.ticketService.lastWorkingOnTickets });
     }
 }
