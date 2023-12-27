@@ -12,14 +12,22 @@ export class WssService {
 
     private start() {
         this.wss.on('connection', (ws: WebSocket) => {
-            ws.on('message', (message) => {
-                console.log(message);
-            });
+            console.log('Client connected');
+            ws.on('close', () => console.log('Client disconnected') )            
         });
     }
 
+    public sendMessage( type: string, payload: Object ) {
+        this.wss.clients.forEach( client => {
+          if ( client.readyState === WebSocket.OPEN ) {
+            client.send( JSON.stringify({ type, payload }) );
+          }
+        })
+      }
+    
+
     private constructor(options: Options) {
-        const { server, path = "/ws" } = options;
+        const { server, path = "/ws" } = options;        
         this.wss = new WebSocketServer({ server, path });
         this.start();
     }

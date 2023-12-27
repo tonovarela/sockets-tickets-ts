@@ -5,21 +5,25 @@ import { Server } from './presentation/server';
 import { WssService } from './presentation/services/wss.services';
 
 
-(async () => {
+
+(async()=> {
   main();
 })();
 
 
 function main() {
 
-  const server = new Server({
-    port: envs.PORT,
-    routes: AppRoutes.routes,
-  });
-  const httpServer = createServer(server.app);
+  const server = new Server({port: envs.PORT});
+
+  const httpServer = createServer( server.app );
   WssService.initWss({ server: httpServer });
-  httpServer.listen(envs.PORT, () => {
-    console.log(`Server WS running on port ${envs.PORT}`);
-  });
-  
+
+
+  server.setRoutes( AppRoutes.routes );
+
+
+
+  httpServer.listen( envs.PORT, () => {
+    console.log(`Server running on port: ${ envs.PORT }`);
+  })
 }

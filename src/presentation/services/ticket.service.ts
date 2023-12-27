@@ -79,6 +79,10 @@ export class TicketService {
         const ticket = this.tickets.find(ticket => !ticket.handleAtDesk);
         if (!ticket)
             return { status: 'error', message: "No hay tickets disponibles" };
+        const ticketAsignedPrevius =this.workingOnTickets.find(t=>t.handleAtDesk==desk && t.done==false)
+        if (ticketAsignedPrevius){
+            return { status: 'error', message: `Ya se encuentra trabajando con el  en ticket ${ticketAsignedPrevius.number}` };        
+        }
         ticket.handleAtDesk = desk;
         ticket.handleAt = new Date();
         this.workingOnTickets.unshift({ ...ticket });

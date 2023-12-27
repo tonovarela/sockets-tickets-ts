@@ -24,8 +24,8 @@ export class TicketController {
     }
     public draw = (req: Request, res: Response) => {
         const { desk } = req.params;
-        const ticket = this.ticketService.drawTicket(desk);
-        res.json({ ticket });        
+        const resp = this.ticketService.drawTicket(desk);
+        res.json(resp );        
     }
     public done = (req: Request, res: Response) => {
         const { ticketId } = req.params;
