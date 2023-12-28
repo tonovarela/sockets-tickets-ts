@@ -1,7 +1,11 @@
 import { UuidAdapter } from "../../config/uuid.adapter";
 import { Ticket } from "../../domain/interfaces/tickets";
+import { WssService } from "./wss.services";
 
 export class TicketService {
+constructor(private readonly wsService= WssService.instance){
+
+}
 
     public readonly tickets: Ticket[] = [
         {
@@ -71,6 +75,7 @@ export class TicketService {
             done: false
         };
         this.tickets.push(ticket);
+        this.wsService.sendMessage('on-newTicket', ticket);
         return ticket;
         //Notificar que hay un nuevo ticket
     }
