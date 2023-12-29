@@ -4,7 +4,7 @@ import { TicketController } from "./controller";
 export class TicketRoutes {
     static get routes() {
         const router = Router();
-        const { list, getLast, create, draw, done, workingOn, listPendings } = new TicketController();
+        const { list, getLast, create, draw, done, lastWorkingTickets, listPendings } = new TicketController();
 
         router.get("/", list);
         router.get("/last", getLast);
@@ -12,7 +12,7 @@ export class TicketRoutes {
         router.post("/", create);
         router.get("/draw/:desk", draw);
         router.put("/done/:ticketId", done);
-        router.get('/working-on', workingOn);
+        router.get('/last-working-tickets', lastWorkingTickets);
 
         return router;
 

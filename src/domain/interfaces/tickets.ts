@@ -1,7 +1,7 @@
 export interface Ticket {
     id:string;
     number:number;
-    createAt:Date;
+    createdAt:Date;
     handleAtDesk?:string;
     handleAt?:Date;
     done:boolean;

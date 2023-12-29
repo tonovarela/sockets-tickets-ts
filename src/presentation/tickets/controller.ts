@@ -32,7 +32,7 @@ export class TicketController {
         const ticket = this.ticketService.onFinishedTicket(ticketId);
         res.json({ ticket });
     }
-    public workingOn = (req: Request, res: Response) => {
+    public lastWorkingTickets = (req: Request, res: Response) => {
         res.json({ tickets: this.ticketService.lastWorkingOnTickets });
     }
 }
